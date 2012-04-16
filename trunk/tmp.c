@@ -1,27 +1,10 @@
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/time.h>
-#include <sys/syslimits.h>
-#include <unistd.h>
+#include "tmp.h"
 
-#define FD_FREE		0
-#define FD_CLIENT	1
-#define FD_SERVER	2
-
-#define MAX_FD		OPEN_MAX
-
-typedef void	(*fct)();
-
-typedef struct	s_env
+void	my_putstr(char *c)
 {
-  char	fd_type[MAX_FD];
-  fct	fct_read[MAX_FD];
-  fct	fct_write[MAX_FD];
-  int	port;
-}		t_env;
+  write(1, c, strlen(c));
+}
 
 void	client_read(t_env *e, int fd)
 {
@@ -32,14 +15,14 @@ void	client_read(t_env *e, int fd)
   if (r > 0)
     {
       buf[r] = '\0';
-      my_putnbr(fd);
+      printf("%i",fd);
       my_putstr(": ");
       my_putstr(buf);
       my_putstr("\n");
     }
   else
     {
-      my_putnbr(fd);
+      printf("%i",fd);
       my_putstr(": ");
       my_putstr("Connexion closed\n");
       close(fd);
@@ -105,7 +88,7 @@ int			main(int argc, char **argv)
 	    fd_max = i;
 	  }
       if (select(fd_max + 1, &fd_read, NULL, NULL, &tv) == -1)
-	aff_err("select");
+	printf("select");
       for (i = 0; i < MAX_FD; i++)
 	if (FD_ISSET(i, &fd_read))
 	  e.fct_read[i](&e, i);
