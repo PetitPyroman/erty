@@ -17,7 +17,8 @@ LDFLAGS +=
 
 NAME =			serveur
 
-SOURCES =		main.c \
+SOURCES =		main.c		\
+			init_server.c	\
 
 OBJECTS =  $(SOURCES:.c=.o)
 
