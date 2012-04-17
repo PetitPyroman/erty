@@ -5,10 +5,12 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Mon Apr 16 18:40:10 2012 jules1 dourlens
-** Last update Tue Apr 17 19:49:55 2012 maxime demouchy
+** Last update Tue Apr 17 19:54:16 2012 maxime demouchy
 */
 
-#include	"users.h"
+#include	<stdlib.h>
+#include	<string.h>
+#include	"server.h"
 
 t_user		*user_new(char *name, int socket)
 {
@@ -20,8 +22,7 @@ t_user		*user_new(char *name, int socket)
       perror("malloc");
       exit(1);
     }
-  strcpy(res->name, name, LEN_NAME - 1);
-  free(name);
+  strncpy(res->name, name, LEN_NAME - 1);
   res->next = NULL;
   res->socket = socket;
   return (res);
