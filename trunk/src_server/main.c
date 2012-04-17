@@ -5,13 +5,11 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Tue Apr 17 20:52:37 2012 maxime demouchy
+** Last update Wed Apr 18 00:40:47 2012 maxime demouchy
 */
 
-#include	<sys/select.h>
 #include	<sys/time.h>
 #include	<unistd.h>
-
 #include	<sys/types.h>
 #include	<sys/socket.h>
 #include	<string.h>
@@ -22,51 +20,28 @@
 #include	"server.h"
 #include	"common.h"
 
-static void	init_server(t_context *c, int port)
+void	check_new_users(t_context *c)
 {
-  c->run = 1;
-  c->users = NULL;
-  c->s_socket = socket(AF_INET, SOCK_STREAM, 0);
-  memset(&(c->server), 0, sizeof(c->server));
-  c->server.sin_family = AF_INET;
-  c->server.sin_addr.s_addr = htonl(INADDR_ANY);
-  c->server.sin_port = htons(port);
-  xbind(c->s_socket, (struct sockaddr *) &(c->server), sizeof(c->server));
-  xlisten(c->s_socket, 50);
-}
-
-void	init_select(t_user *u)
-{
-  fd_set	fd_read;
-
-  FD_ZERO(&fd_read);
-  FD_SET(u->socket, &fd_read);
-  
-  select(u->socket + 1, &fd_read, NULL, NULL, NULL);
-  
-  if (FD_ISSET(u->socket, &fd_read))
+  if (FD_ISSET(c->s_socket, &(c->fd_read)))
     {
-      printf("DATA RECEIVE !\n");
-      read
-    }
-  else
-    {
-      printf("NO DATA !!!\n");
+      printf("New users connected !!\n");
+      user_add(&(c->users), "anonymous", accept(c->s_socket, NULL, NULL));
     }
 }
 
-int	get_max_fd(t_user *u)
+void	check_data_all_client(t_context *c)
 {
-  int	maxfd;
+  t_user	*u;
 
-  maxfd = -1;
+  u = c->users;
   while (u)
     {
-      if (u->socket > maxdf)
-	maxfd = u->socket;
+      if (FD_ISSET(u->socket, &(c->fd_read)))
+	{
+	  printf("Package by : %s\n", u->name);
+	}
       u = u->next;
     }
-  return (maxfd);
 }
 
 void	start_server(t_context *c)
@@ -74,10 +49,9 @@ void	start_server(t_context *c)
   while (c->run)
     {
       init_select(c);
-      
-      user_add(&(c->users), "LooL", accept(c->s_socket, NULL, NULL));
-      if (maxfd != -1)
-	init_select(c->users);
+      select(get_max_fd(c) + 1, &(c->fd_read), NULL, NULL, &(c->time));
+      check_new_users(c);
+      check_data_all_client(c);
       //display_users(c->users);
     }
 }
@@ -88,11 +62,12 @@ int	main(int argc, char **argv)
 
   if (argc > 1)
     {
+      c.time.tv_sec = 1;
+      c.time.tv_usec = 000;
       init_server(&c, atoi(argv[1]));
-      printf("socket server = %i\n", c.s_socket);
       start_server(&c);
     }
   else
-    printf("usage : ./server port");
+    printf("usage : ./server port\n");
   return (0);
 }
