@@ -18,6 +18,9 @@ LDFLAGS +=
 NAME =			serveur
 
 SOURCES =		main.c		\
+			xbind.c		\
+			xlisten.c	\
+			users_utils.c	\
 
 OBJECTS =  $(SOURCES:.c=.o)
 
