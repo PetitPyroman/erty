@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr  5 15:58:35 2012 maxime demouchy
-** Last update Wed Apr 18 00:37:32 2012 maxime demouchy
+** Last update Wed Apr 18 00:53:57 2012 maxime demouchy
 */
 
 #ifndef		__SERVER__
@@ -29,6 +29,7 @@ typedef struct	s_context
   struct sockaddr_in	server;
   struct timeval	time;
   fd_set		fd_read;
+  fd_set		fd_write;
   int			s_socket;
   int			run;
   t_user		*users;

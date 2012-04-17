@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Wed Apr 18 00:40:47 2012 maxime demouchy
+** Last update Wed Apr 18 00:58:15 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -29,6 +29,21 @@ void	check_new_users(t_context *c)
     }
 }
 
+void	check_delete_users(t_context *c)
+{
+  t_user	*u;
+
+  u = c->users;
+  while (u)
+    {
+      if (!(FD_ISSET(u->socket, &(c->fd_read))))
+	{
+	  printf("DONNNNE !!!!  by : %s\n", u->name);
+	}
+      u = u->next;
+    }
+}
+
 void	check_data_all_client(t_context *c)
 {
   t_user	*u;
@@ -48,10 +63,12 @@ void	start_server(t_context *c)
 {
   while (c->run)
     {
+      sleep(1);
       init_select(c);
-      select(get_max_fd(c) + 1, &(c->fd_read), NULL, NULL, &(c->time));
+      select(get_max_fd(c) + 1, &(c->fd_read), &(c->fd_write), NULL, &(c->time));
       check_new_users(c);
       check_data_all_client(c);
+      check_delete_users(c);
       //display_users(c->users);
     }
 }
