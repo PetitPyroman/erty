@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Mon Apr 16 17:33:06 2012 maxime demouchy
+** Last update Tue Apr 17 19:22:24 2012 jules1 dourlens
 */
 
 #include	"header.h"
@@ -14,5 +14,6 @@
 
 int	main(int argc, char **argv)
 {
+
   return (0);
 }
