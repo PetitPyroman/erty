@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr  5 15:58:35 2012 maxime demouchy
-** Last update Wed Apr 18 16:34:30 2012 maxime demouchy
+** Last update Wed Apr 18 18:38:13 2012 jules1 dourlens
 */
 
 #ifndef		__SERVER__
@@ -14,10 +14,6 @@
 #include	<arpa/inet.h>
 #include	<sys/select.h>
 #include	"header.h"
-
-#define JOIN	"/join"
-#define PART	"/part"
-#define NICK	"/nick"
 
 typedef struct		s_channel
 {
