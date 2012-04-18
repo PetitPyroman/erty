@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Wed Apr 18 00:36:35 2012 maxime demouchy
-** Last update Wed Apr 18 00:55:46 2012 maxime demouchy
+** Last update Wed Apr 18 15:00:08 2012 maxime demouchy
 */
 
 #include	"server.h"
@@ -16,12 +16,10 @@ void	init_select(t_context *c)
 
   u = c->users;
   FD_ZERO(&(c->fd_read));
-  FD_ZERO(&(c->fd_write));
   FD_SET(c->s_socket, &(c->fd_read));
   while (u)
     {
       FD_SET(u->socket, &(c->fd_read));
-      FD_SET(u->socket, &(c->fd_write));
       u = u->next;
     }
 }
