@@ -15,6 +15,10 @@
 #include	<sys/select.h>
 #include	"header.h"
 
+#define JOIN	"/join"
+#define PART	"/part"
+#define NICK	"/nick"
+
 typedef struct		s_channel
 {
   int			id_channel;

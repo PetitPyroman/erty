@@ -17,7 +17,10 @@ LDFLAGS +=
 
 NAME =			client
 
-SOURCES =		main.c \
+SOURCES =		xsocket.c \
+			xconnect.c \
+			xinet_aton.c \
+			main.c \
 
 OBJECTS =  $(SOURCES:.c=.o)
 
