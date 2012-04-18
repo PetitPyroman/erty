@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Wed Apr 18 16:39:00 2012 jules1 dourlens
+** Last update Wed Apr 18 18:11:38 2012 maxime demouchy
 */
 
 #include	<stdio.h>
@@ -36,7 +36,7 @@ static void	dispatch_input(t_context *c, char *input)
   t_packet	packet;
 
   bzero(&packet, sizeof(packet));
-  packet.type = REGISTER;
+  packet.type = LIST_CHAN;
   strcpy(packet.data, input); 
   printf("Writted %i\n", write(c->socket, &packet, sizeof(packet)));
 }
