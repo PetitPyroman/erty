@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Wed Apr 18 00:58:15 2012 maxime demouchy
+** Last update Wed Apr 18 14:30:11 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -25,22 +25,7 @@ void	check_new_users(t_context *c)
   if (FD_ISSET(c->s_socket, &(c->fd_read)))
     {
       printf("New users connected !!\n");
-      user_add(&(c->users), "anonymous", accept(c->s_socket, NULL, NULL));
-    }
-}
-
-void	check_delete_users(t_context *c)
-{
-  t_user	*u;
-
-  u = c->users;
-  while (u)
-    {
-      if (!(FD_ISSET(u->socket, &(c->fd_read))))
-	{
-	  printf("DONNNNE !!!!  by : %s\n", u->name);
-	}
-      u = u->next;
+      user_add(&(c->users), "Anonymous", accept(c->s_socket, NULL, NULL));
     }
 }
 
@@ -68,7 +53,6 @@ void	start_server(t_context *c)
       select(get_max_fd(c) + 1, &(c->fd_read), &(c->fd_write), NULL, &(c->time));
       check_new_users(c);
       check_data_all_client(c);
-      check_delete_users(c);
       //display_users(c->users);
     }
 }
@@ -80,7 +64,7 @@ int	main(int argc, char **argv)
   if (argc > 1)
     {
       c.time.tv_sec = 1;
-      c.time.tv_usec = 000;
+      c.time.tv_usec = 0;
       init_server(&c, atoi(argv[1]));
       start_server(&c);
     }

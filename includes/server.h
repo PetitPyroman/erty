@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr  5 15:58:35 2012 maxime demouchy
-** Last update Wed Apr 18 00:53:57 2012 maxime demouchy
+** Last update Wed Apr 18 14:43:52 2012 maxime demouchy
 */
 
 #ifndef		__SERVER__
@@ -13,14 +13,20 @@
 
 #include	<arpa/inet.h>
 #include	<sys/select.h>
+#include	"header.h"
 
-
-#define	LEN_NAME	255
+typedef struct		s_channel
+{
+  int			id_channel;
+  char			name[LEN_NAME];
+  struct s_channel	*next;
+}			t_channel;
 
 typedef	struct	s_user
 {
   char		name[LEN_NAME];
   int		socket;
+  t_channel	*channel;
   struct s_user	*next;
 }		t_user;
 
@@ -58,10 +64,16 @@ void		xbind(int sockfd, const struct sockaddr *addr,
 void		perror(const char *s);
 
 /*
+** channel_utils.c
+*/
+
+void		channel_delete(t_channel *c, int id);
+void		channel_add(t_channel **c, char *name, int id_chan);
+
+/*
 ** USERS_UTILS.c
 */
 
-t_user		*user_new(char *name, int socket);
 void		user_add(t_user **u, char *name, int socket);
 void		user_delete(t_user *u, char *name);
 

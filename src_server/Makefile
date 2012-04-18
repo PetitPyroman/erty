@@ -21,6 +21,7 @@ SOURCES =		main.c		\
 			xbind.c		\
 			xlisten.c	\
 			users_utils.c	\
+			channel_utils.c	\
 			init_server.c	\
 			utils_select.c	\
 

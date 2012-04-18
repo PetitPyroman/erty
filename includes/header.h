@@ -5,10 +5,32 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:16:50 2012 maxime demouchy
-** Last update Mon Apr 16 11:15:04 2012 maxime demouchy
+** Last update Wed Apr 18 14:44:42 2012 maxime demouchy
 */
 
 #ifndef		__HEADER__
 #define		__HEADER__
+
+#include	<time.h>
+
+#define	LEN_NAME	128
+
+typedef enum
+  {
+    REGISTER,
+    SEND_MESSAGE,
+    SEND_FILE,
+    GET_FILE,
+    QUIT_CHAN
+  }t_type;
+
+typedef struct	s_packet
+{
+  t_type	type;
+  char		data[512];
+  char		to[LEN_NAME];
+  char		to_chan[LEN_NAME];
+  time_t	time;
+}		t_packet;
 
 #endif
