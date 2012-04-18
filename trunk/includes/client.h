@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Sun Apr  8 16:12:39 2012 maxime demouchy
-** Last update Wed Apr 18 15:37:27 2012 jules1 dourlens
+** Last update Wed Apr 18 18:38:36 2012 jules1 dourlens
 */
 
 #ifndef			__CLIENT__
@@ -13,6 +13,10 @@
 
 #include		<arpa/inet.h>
 #include		<sys/select.h>
+
+#define JOIN		"/join"
+#define PART		"/part"
+#define NICK		"/nick"
 
 typedef struct		s_context
 {
