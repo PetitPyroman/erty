@@ -24,6 +24,7 @@ SOURCES =		main.c				\
 			channel_utils.c			\
 			init_server.c			\
 			utils_select.c			\
+			receive_utils.c			\
 
 OBJECTS =  $(SOURCES:.c=.o)
 
