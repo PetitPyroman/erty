@@ -5,7 +5,7 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Mon Apr 16 18:40:10 2012 jules1 dourlens
-** Last update Wed Apr 18 14:29:23 2012 maxime demouchy
+** Last update Wed Apr 18 19:19:44 2012 maxime demouchy
 */
 
 #include	<stdlib.h>
@@ -23,6 +23,7 @@ static t_user		*user_new(char *name, int socket)
       exit(1);
     }
   strncpy(res->name, name, LEN_NAME - 1);
+  res->kill = 0;
   res->next = NULL;
   res->channel = NULL;
   res->socket = socket;
@@ -45,7 +46,7 @@ void		user_add(t_user **u, char *name, int socket)
     }
 }
 
-void		user_delete(t_user *u, char *name)
+t_user		*user_delete(t_user *u, t_user *del)
 {
   t_user	*accu;
   t_user	*prev;
@@ -54,13 +55,22 @@ void		user_delete(t_user *u, char *name)
   prev = NULL;
   while (accu)
     {
-      if (!(strcmp(name, accu->name)))
+      if (u == del)
 	{
-	  if (prev)
-	    prev->next = accu->next;
-	  free(accu);
+	  if (prev == NULL)
+	    {
+	      prev = accu->next;
+	      free(accu);
+	      return (prev);
+	    }
+	  else
+	    {
+	      prev->next = accu->next;
+	      free(accu);
+	    }
 	}
       prev = accu;
       accu = accu->next;
     }
+  return (u);
 }

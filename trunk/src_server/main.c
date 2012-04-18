@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Wed Apr 18 16:52:20 2012 maxime demouchy
+** Last update Wed Apr 18 23:21:50 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -20,19 +20,11 @@
 #include	"server.h"
 #include	"common.h"
 
-void	check_new_users(t_context *c)
-{
-  if (FD_ISSET(c->s_socket, &(c->fd_read)))
-    {
-      printf("New users connected !!\n");
-      user_add(&(c->users), "Anonymous", accept(c->s_socket, NULL, NULL));
-    }
-}
-
 t_receive	*check_data_all_client(t_context *c)
 {
   t_user	*u;
   t_receive	*r;
+  int		rt;
 
   u = c->users;
   r = NULL;
@@ -41,32 +33,74 @@ t_receive	*check_data_all_client(t_context *c)
       if (FD_ISSET(u->socket, &(c->fd_read)))
 	{
 	  r = add_node_receive(r, u);
-	  printf("NEW DATA INC !!!\n");
-	  printf("rt == %i\n", read(u->socket, &(get_last(r)->packet), sizeof(t_packet)));
+	  rt = read(u->socket, &(get_last(r)->packet), sizeof(t_packet));
+	  if (rt == -1 || rt == 0)
+	    {
+	      u->kill = 1;
+	      r = delete_last_node(r);
+	      printf("user -> [%s] Disconnect\n", u->name);
+	    }
 	}
       u = u->next;
     }
   return (r);
 }
 
-void	check_data_receive(t_receive *r)
+void	send_response(int fd, t_packet *p)
+{
+  write(fd, p, sizeof(t_packet));
+}
+
+void	check_data_receive(t_receive *r, t_context *c)
 {
   t_receive	*tmp;
+  t_packet	p;
 
   tmp = r;
   while (tmp)
     {
+      if (r->packet.type == REGISTER)
+	{
+	  check_data_register(r, c, &p);
+	  send_response(r->user_from->socket, &p);
+	}
+      else if (r->packet.type == JOIN_CHAN)
+	{
+	  check_data_join_chan(r, c, &p);
+	  send_response(r->user_from->socket, &p);
+	}
+      else
+	{
+	  p.type = ANSWER_NO;
+	  strcpy(p.data, "BAD COMMAND !\n");
+	  send_response(r->user_from->socket, &p);
+	}
       printf("Data Receive by : %s   type packet : %i  data : %s\n", r->user_from->name, r->packet.type, r->packet.data);
       tmp = tmp->next;
     }
-  return (NULL);
+}
+
+void	check_client_disconnect(t_context *c)
+{
+  t_user	*u;
+
+  u = c->users;
+  while (u)
+    {
+      if (u->kill)
+	{
+	  c->users = user_delete(c->users, u);
+	  u = c->users;
+	}
+      else
+	u = u->next;
+    }
 }
 
 void	start_server(t_context *c)
 {
   t_receive	*r;
 
-  
   printf("%i\n", sizeof(t_packet));
   while (c->run)
     {
@@ -76,7 +110,8 @@ void	start_server(t_context *c)
       select(get_max_fd(c) + 1, &(c->fd_read), NULL, NULL, &(c->time));
       check_new_users(c);
       r = check_data_all_client(c);
-      check_data_receive(r);
+      check_client_disconnect(c);
+      check_data_receive(r, c);
       r = free_all_receive(r);
     }
 }
@@ -87,7 +122,6 @@ int	main(int argc, char **argv)
 
   if (argc > 1)
     {
-      
       init_server(&c, atoi(argv[1]));
       start_server(&c);
     }

@@ -25,6 +25,8 @@ SOURCES =		main.c				\
 			init_server.c			\
 			utils_select.c			\
 			receive_utils.c			\
+			command_register.c		\
+			command_join.c			\
 
 OBJECTS =  $(SOURCES:.c=.o)
 
