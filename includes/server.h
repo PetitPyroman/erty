@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr  5 15:58:35 2012 maxime demouchy
-** Last update Wed Apr 18 18:38:13 2012 jules1 dourlens
+** Last update Wed Apr 18 23:16:50 2012 maxime demouchy
 */
 
 #ifndef		__SERVER__
@@ -26,6 +26,7 @@ typedef	struct	s_user
 {
   char		name[LEN_NAME];
   int		socket;
+  int		kill;
   t_channel	*channel;
   struct s_user	*next;
 }		t_user;
@@ -45,7 +46,14 @@ typedef struct	s_context
   int			s_socket;
   int			run;
   t_user		*users;
+  t_channel		*channel;
 }		t_context;
+
+/*
+** command_register.c
+*/
+
+void		check_data_register(t_receive *r, t_context *c, t_packet *p);
 
 /*
 ** utils_select.c
@@ -53,6 +61,7 @@ typedef struct	s_context
 
 void	init_select(t_context *c);
 int	get_max_fd(t_context *c);
+void	check_new_users(t_context *c);
 
 /*
 ** receive_utils.c
@@ -61,6 +70,7 @@ int	get_max_fd(t_context *c);
 t_receive	*add_node_receive(t_receive *r, t_user *u);
 t_receive	*get_last(t_receive *r);
 void		*free_all_receive(t_receive *r);
+t_receive	*delete_last_node(t_receive *r);
 
 /*
 ** init_server.c
@@ -89,6 +99,6 @@ void		channel_add(t_channel **c, char *name, int id_chan);
 */
 
 void		user_add(t_user **u, char *name, int socket);
-void		user_delete(t_user *u, char *name);
+t_user		*user_delete(t_user *u, t_user *del);
 
 #endif

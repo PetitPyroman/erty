@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Wed Apr 18 16:16:50 2012 maxime demouchy
-** Last update Wed Apr 18 16:34:13 2012 maxime demouchy
+** Last update Wed Apr 18 19:24:07 2012 maxime demouchy
 */
 
 #include	<stdlib.h>
@@ -25,6 +25,31 @@ static t_receive	*receive_new(t_user *u)
   res->next = NULL;
   res->user_from = u;
   return (res);
+}
+
+t_receive	*delete_last_node(t_receive *r)
+{
+  t_receive	*tmp;
+  t_receive	*prev;
+
+  tmp = r;
+  prev = NULL;
+  while (r)
+    {
+      prev = r;
+      r = r->next;
+    }
+  if (prev == NULL)
+    {
+      free(r);
+      return (NULL);
+    }
+  else
+    {
+      free(prev->next);
+      prev->next = NULL;
+      return (r);
+    }
 }
 
 t_receive	*get_last(t_receive *r)

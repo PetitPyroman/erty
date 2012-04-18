@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Wed Apr 18 00:35:03 2012 maxime demouchy
-** Last update Wed Apr 18 00:36:15 2012 maxime demouchy
+** Last update Wed Apr 18 23:17:21 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -21,6 +21,7 @@ void	init_server(t_context *c, int port)
 {
   c->run = 1;
   c->users = NULL;
+  c->channel = NULL;
   c->s_socket = socket(AF_INET, SOCK_STREAM, 0);
   memset(&(c->server), 0, sizeof(c->server));
   c->server.sin_family = AF_INET;

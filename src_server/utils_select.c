@@ -5,10 +5,20 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Wed Apr 18 00:36:35 2012 maxime demouchy
-** Last update Wed Apr 18 15:00:08 2012 maxime demouchy
+** Last update Wed Apr 18 19:05:26 2012 maxime demouchy
 */
 
+#include	<stdio.h>
 #include	"server.h"
+
+void	check_new_users(t_context *c)
+{
+  if (FD_ISSET(c->s_socket, &(c->fd_read)))
+    {
+      printf("New users connected !!\n");
+      user_add(&(c->users), "Anonymous", accept(c->s_socket, NULL, NULL));
+    }
+}
 
 void	init_select(t_context *c)
 {
