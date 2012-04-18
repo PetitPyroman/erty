@@ -13,13 +13,12 @@ RM = rm -rf
 
 CFLAGS += -W -Wall -Wextra  -g -I ../includes/
 
-LDFLAGS +=
+LDFLAGS += -lncurses
 
 NAME =			client
 
-SOURCES =		xsocket.c \
-			xconnect.c \
-			xinet_aton.c \
+SOURCES =		xfuncs.c \
+			get_funcs.c \
 			main.c \
 
 OBJECTS =  $(SOURCES:.c=.o)

@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Wed Apr 18 18:11:38 2012 maxime demouchy
+** Last update Wed Apr 18 21:39:02 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -20,6 +20,10 @@
 #include	"client.h"
 #include	"common.h"
 
+void		init_gui(t_context *c)
+{
+}
+
 static void	init_client(char **argv, t_context *c)
 {
   c->run = 1;
@@ -31,24 +35,57 @@ static void	init_client(char **argv, t_context *c)
   xconnect(c->socket, (struct sockadd *) &(c->server), sizeof(c->server));
 }
 
+/*
+** How to deal with the cmd to parse! 
+*/
 static void	dispatch_input(t_context *c, char *input)
 {
   t_packet	packet;
+  char		*tmp;
 
   bzero(&packet, sizeof(packet));
-  packet.type = LIST_CHAN;
-  strcpy(packet.data, input); 
-  printf("Writted %i\n", write(c->socket, &packet, sizeof(packet)));
+  packet.type = get_type(strtok(input, DELIM));
+  if (-1 == packet.type)
+    return;
+  else if (-2 == packet.type)
+    {
+      packet.type = SEND_MESSAGE;
+      strncpy(packet.data, input, LEN_DATA - 1);
+    }
+  else if (JOIN_CHAN == packet.type || SEND_MESSAGE == packet.type)
+    {
+      tmp = strtok(NULL, DELIM);
+      if (NULL != tmp)
+	strncpy(packet.data, tmp, LEN_DATA - 1); 
+    }
+  printf("Writen %i\n", write(c->socket, &packet, sizeof(packet)));
 }
 
+/*
+** Select done here to get the input line from std::in
+** and the socket server output!
+*/
 static void	do_input(t_context *c)
 {
   char		input[255];
 
-  while (c->run && fgets(input, sizeof(input), stdin))
+  while (c->run)
     {
-      printf("Input : %s\n", input);
-      dispatch_input(c, input);
+      FD_ZERO(&(c->read));
+      FD_SET(c->socket, &(c->read));
+      FD_SET(0, &(c->read));
+      select(c->socket + 1, &(c->read), NULL, NULL, NULL);
+      if (FD_ISSET(c->socket, &(c->read)))
+	{
+	  printf("Ready to read packet \n");
+	}
+      else if (FD_ISSET(0, &(c->read)))
+	{
+	  if (fgets(input, sizeof(input), stdin))
+	    dispatch_input(c, input);
+	  else
+	    c->run = 0;
+	}
     }
 }
 
