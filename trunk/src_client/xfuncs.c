@@ -5,7 +5,7 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Fri Apr  6 11:20:51 2012 jules1 dourlens
-** Last update Wed Apr 18 16:01:52 2012 jules1 dourlens
+** Last update Wed Apr 18 21:04:13 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -26,4 +26,29 @@ void		xconnect(int sockfd, const struct sockaddr *addr,
       perror("connect");
       exit(1);
     }
+}
+
+void		xinet_aton(const char *cp, struct in_addr *inp)
+{
+  int		i;
+
+  i = inet_aton(cp, inp);
+  if (i == 0)
+    {
+      perror("inet_aton");
+      exit(1);
+    }
+}
+
+int		xsocket(int domain, int type, int protocol)
+{
+  int		ret;
+
+  ret = socket(domain, type, protocol);
+  if (ret == -1)
+    {
+      perror("socket");
+      exit(1);
+    }
+  return (ret);
 }
