@@ -5,7 +5,7 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Wed Apr 18 18:41:24 2012 jules1 dourlens
-** Last update Thu Apr 19 16:54:49 2012 jules1 dourlens
+** Last update Thu Apr 19 18:14:59 2012 jules1 dourlens
 */
 
 #include		<stdlib.h>
@@ -30,6 +30,8 @@ int			get_type(char *s)
     return (LIST_CHAN);
   else if (!(strcmp(s, USERS)))
     return (LIST_USERS);
+  else if (!(strcmp(s, MSG)))
+    return (MSG_T);
   else
     return (-2);
 }
@@ -53,7 +55,7 @@ t_event			*get_event(t_context *c, int c_id, int c_type)
   t_event		*res;
 
   (void) c;
-  res = malloc(sizeof(res));
+  res = malloc(sizeof((*res)));
   if (!res)
     exit(1);
   res->id = c_id;

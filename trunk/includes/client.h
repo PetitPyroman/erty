@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Sun Apr  8 16:12:39 2012 maxime demouchy
-** Last update Thu Apr 19 12:16:53 2012 jules1 dourlens
+** Last update Thu Apr 19 18:13:30 2012 jules1 dourlens
 */
 
 #ifndef			__CLIENT__
@@ -21,6 +21,9 @@
 #define NICK		"/nick"
 #define CHAN		"/list"
 #define USERS		"/users"
+#define MSG		"/msg"
+
+#define MSG_T		145
 
 #define DELIM		" "
 

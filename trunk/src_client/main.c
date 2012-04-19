@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Thu Apr 19 16:55:43 2012 jules1 dourlens
+** Last update Thu Apr 19 18:18:26 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -19,7 +19,6 @@
 #include	"header.h"
 #include	"client.h"
 #include	"common.h"
-
 
 static void	init_client(char **argv, t_context *c)
 {
@@ -51,9 +50,14 @@ static void	dispatch_input(t_context *c, char *input)
       packet.type = SEND_MESSAGE;
       strncpy(packet.data, input, LEN_DATA - 1);
     }
-  else if (JOIN_CHAN == packet.type || SEND_MESSAGE == packet.type || LIST_CHAN == packet.type
-	   ||  LIST_USERS == packet.type ||  QUIT_CHAN == packet.type || REGISTER == packet.type)
+  else if (MSG_T == packet.type || JOIN_CHAN == packet.type || SEND_MESSAGE == packet.type || LIST_CHAN == packet.type ||  LIST_USERS == packet.type ||  QUIT_CHAN == packet.type || REGISTER == packet.type)
     {
+      if (MSG_T == packet.type)
+	{
+	  tmp = strtok(NULL, DELIM);
+	  strcpy(packet.to, tmp);
+	  packet.type = SEND_MESSAGE;
+	}
       tmp = strtok(NULL, DELIM);
       if (NULL != tmp)
 	strncpy(packet.data, tmp, LEN_DATA - 1); 
@@ -80,8 +84,8 @@ static void	do_input(t_context *c)
       select(c->socket + 1, &(c->read), NULL, NULL, NULL);
       if (FD_ISSET(c->socket, &(c->read)))
 	{
-	  read(c->socket, &p, sizeof(p));
-	  printf("type: %i, data: %s\n", p.type, p.data);
+	  if (sizeof(p) == read(c->socket, &p, sizeof(p)))
+	    event_gere(c, &p);
 	}
       else if (FD_ISSET(0, &(c->read)))
 	{
