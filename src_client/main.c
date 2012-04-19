@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Wed Apr 18 21:39:02 2012 jules1 dourlens
+** Last update Thu Apr 19 11:57:40 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -20,9 +20,6 @@
 #include	"client.h"
 #include	"common.h"
 
-void		init_gui(t_context *c)
-{
-}
 
 static void	init_client(char **argv, t_context *c)
 {
