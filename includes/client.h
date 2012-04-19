@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Sun Apr  8 16:12:39 2012 maxime demouchy
-** Last update Wed Apr 18 21:39:11 2012 jules1 dourlens
+** Last update Thu Apr 19 11:57:22 2012 jules1 dourlens
 */
 
 #ifndef			__CLIENT__
@@ -22,15 +22,6 @@
 
 #define DELIM		" "
 
-typedef struct		s_gui_box
-{
-  int			x;
-  int			y;
-  WINDOW		*win;
-  int			w;
-  int			h;
-}			t_gui_box;
-
 typedef struct		s_event
 {
   int			type;
@@ -44,7 +35,6 @@ typedef struct		s_context
   struct sockaddr_in	server;
   int			run;
   fd_set		read;
-  t_gui_box		records;
 }			t_context;
 
 #endif
