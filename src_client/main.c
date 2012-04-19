@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Thu Apr 19 11:57:40 2012 jules1 dourlens
+** Last update Thu Apr 19 16:55:43 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -30,6 +30,7 @@ static void	init_client(char **argv, t_context *c)
   xinet_aton(argv[1], &(c->server.sin_addr));
   c->server.sin_port = htons(atoi(argv[2]));
   xconnect(c->socket, (struct sockadd *) &(c->server), sizeof(c->server));
+  c->events = NULL;
 }
 
 /*
@@ -40,6 +41,7 @@ static void	dispatch_input(t_context *c, char *input)
   t_packet	packet;
   char		*tmp;
 
+  input[strlen(input) -1] = NULL;
   bzero(&packet, sizeof(packet));
   packet.type = get_type(strtok(input, DELIM));
   if (-1 == packet.type)
@@ -49,12 +51,15 @@ static void	dispatch_input(t_context *c, char *input)
       packet.type = SEND_MESSAGE;
       strncpy(packet.data, input, LEN_DATA - 1);
     }
-  else if (JOIN_CHAN == packet.type || SEND_MESSAGE == packet.type)
+  else if (JOIN_CHAN == packet.type || SEND_MESSAGE == packet.type || LIST_CHAN == packet.type
+	   ||  LIST_USERS == packet.type ||  QUIT_CHAN == packet.type || REGISTER == packet.type)
     {
       tmp = strtok(NULL, DELIM);
       if (NULL != tmp)
 	strncpy(packet.data, tmp, LEN_DATA - 1); 
     }
+  packet.id = get_id();
+  event_push(c, packet.id, packet.type);
   printf("Writen %i\n", write(c->socket, &packet, sizeof(packet)));
 }
 
@@ -65,6 +70,7 @@ static void	dispatch_input(t_context *c, char *input)
 static void	do_input(t_context *c)
 {
   char		input[255];
+  t_packet	p;
 
   while (c->run)
     {
@@ -74,7 +80,8 @@ static void	do_input(t_context *c)
       select(c->socket + 1, &(c->read), NULL, NULL, NULL);
       if (FD_ISSET(c->socket, &(c->read)))
 	{
-	  printf("Ready to read packet \n");
+	  read(c->socket, &p, sizeof(p));
+	  printf("type: %i, data: %s\n", p.type, p.data);
 	}
       else if (FD_ISSET(0, &(c->read)))
 	{

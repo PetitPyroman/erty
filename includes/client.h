@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Sun Apr  8 16:12:39 2012 maxime demouchy
-** Last update Thu Apr 19 11:57:22 2012 jules1 dourlens
+** Last update Thu Apr 19 12:16:53 2012 jules1 dourlens
 */
 
 #ifndef			__CLIENT__
@@ -19,6 +19,8 @@
 #define JOIN		"/join"
 #define PART		"/part"
 #define NICK		"/nick"
+#define CHAN		"/list"
+#define USERS		"/users"
 
 #define DELIM		" "
 
@@ -35,6 +37,7 @@ typedef struct		s_context
   struct sockaddr_in	server;
   int			run;
   fd_set		read;
+  t_event		*events;
 }			t_context;
 
 #endif

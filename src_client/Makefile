@@ -18,6 +18,7 @@ LDFLAGS += -lncurses
 NAME =			client
 
 SOURCES =		xfuncs.c \
+			event_manager.c \
 			get_funcs.c \
 			main.c \
 
