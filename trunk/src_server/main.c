@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Wed Apr 18 23:21:50 2012 maxime demouchy
+** Last update Thu Apr 19 17:12:05 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -59,6 +59,7 @@ void	check_data_receive(t_receive *r, t_context *c)
   tmp = r;
   while (tmp)
     {
+      p.id = r->packet.id;
       if (r->packet.type == REGISTER)
 	{
 	  check_data_register(r, c, &p);

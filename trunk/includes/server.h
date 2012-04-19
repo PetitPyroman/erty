@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr  5 15:58:35 2012 maxime demouchy
-** Last update Wed Apr 18 23:16:50 2012 maxime demouchy
+** Last update Thu Apr 19 17:10:55 2012 maxime demouchy
 */
 
 #ifndef		__SERVER__
@@ -17,7 +17,6 @@
 
 typedef struct		s_channel
 {
-  int			id_channel;
   char			name[LEN_NAME];
   struct s_channel	*next;
 }			t_channel;
@@ -48,6 +47,12 @@ typedef struct	s_context
   t_user		*users;
   t_channel		*channel;
 }		t_context;
+
+/*
+** command_join.c
+*/
+
+void		check_data_join_chan(t_receive *r, t_context *c, t_packet *p);
 
 /*
 ** command_register.c
@@ -91,8 +96,8 @@ void		perror(const char *s);
 ** channel_utils.c
 */
 
-void		channel_delete(t_channel *c, int id);
-void		channel_add(t_channel **c, char *name, int id_chan);
+void		channel_delete(t_channel *c, char *name);
+void		channel_add(t_channel **c, char *name);
 
 /*
 ** USERS_UTILS.c
