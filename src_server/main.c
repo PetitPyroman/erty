@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Thu Apr 19 17:12:05 2012 maxime demouchy
+** Last update Thu Apr 19 17:40:57 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -68,6 +68,26 @@ void	check_data_receive(t_receive *r, t_context *c)
       else if (r->packet.type == JOIN_CHAN)
 	{
 	  check_data_join_chan(r, c, &p);
+	  send_response(r->user_from->socket, &p);
+	}
+      else if (r->packet.type == QUIT_CHAN)
+	{
+	  check_data_quit_chan(r, c, &p);
+	  send_response(r->user_from->socket, &p);
+	}
+      else if (r->packet.type == LIST_CHAN)
+	{
+	  check_data_list_chan(r, c, &p);
+	  send_response(r->user_from->socket, &p);
+	}
+      else if (r->packet.type == LIST_USERS)
+	{
+	  check_data_list_user(r, c, &p);
+	  send_response(r->user_from->socket, &p);
+	}
+      else if (r->packet.type == SEND_MESSAGE)
+	{
+	  check_data_send_message(r, c, &p);
 	  send_response(r->user_from->socket, &p);
 	}
       else

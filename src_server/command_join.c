@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Wed Apr 18 23:18:31 2012 maxime demouchy
-** Last update Thu Apr 19 17:10:50 2012 maxime demouchy
+** Last update Thu Apr 19 17:16:51 2012 maxime demouchy
 */
 
 #include	<string.h>
@@ -36,7 +36,7 @@ void		check_data_join_chan(t_receive *r, t_context *c, t_packet *p)
   p->time = time(NULL);
   p->type = ANSWER_NO;
   if (strlen(r->packet.data) < 3 || strlen(r->packet.data) >= LEN_NAME / 2)
-    strcpy(p->data, "Please enter a login >= 3 && < 32\n");
+    strcpy(p->data, "Please enter a channel >= 3 && < 32\n");
   else
     {
       p->type = ANSWER_OK;

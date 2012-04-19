@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr  5 15:58:35 2012 maxime demouchy
-** Last update Thu Apr 19 17:10:55 2012 maxime demouchy
+** Last update Thu Apr 19 17:53:28 2012 maxime demouchy
 */
 
 #ifndef		__SERVER__
@@ -49,10 +49,40 @@ typedef struct	s_context
 }		t_context;
 
 /*
+** send_response.c
+*/
+
+void	send_response(int fd, t_packet *p);
+
+/*
 ** command_join.c
 */
 
 void		check_data_join_chan(t_receive *r, t_context *c, t_packet *p);
+
+/*
+** command_quit_channel.c
+*/
+
+void		check_data_quit_chan(t_receive *r, t_context *c, t_packet *p);
+
+/*
+** command_list_channel.c
+*/
+
+void		check_data_list_chan(t_receive *r, t_context *c, t_packet *p);
+
+/*
+** command_send_message.c
+*/
+
+void		check_data_send_message(t_receive *r, t_context *c, t_packet *p);
+
+/*
+** command_list_users.c
+*/
+
+void		check_data_list_user(t_receive *r, t_context *c, t_packet *p);
 
 /*
 ** command_register.c
