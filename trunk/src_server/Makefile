@@ -27,6 +27,10 @@ SOURCES =		main.c				\
 			receive_utils.c			\
 			command_register.c		\
 			command_join.c			\
+			command_quit_chan.c		\
+			command_list_chan.c		\
+			command_list_users.c		\
+			command_send_message.c		\
 
 OBJECTS =  $(SOURCES:.c=.o)
 

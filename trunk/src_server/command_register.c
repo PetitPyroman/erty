@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Wed Apr 18 22:21:26 2012 maxime demouchy
-** Last update Thu Apr 19 16:55:30 2012 maxime demouchy
+** Last update Thu Apr 19 17:45:42 2012 maxime demouchy
 */
 
 #include	<string.h>
