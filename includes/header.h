@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:16:50 2012 maxime demouchy
-** Last update Wed Apr 18 18:09:32 2012 maxime demouchy
+** Last update Fri Apr 20 11:22:42 2012 jules1 dourlens
 */
 
 #ifndef		__HEADER__
