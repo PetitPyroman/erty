@@ -5,7 +5,7 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Wed Apr 18 18:41:24 2012 jules1 dourlens
-** Last update Thu Apr 19 18:14:59 2012 jules1 dourlens
+** Last update Fri Apr 20 09:58:24 2012 jules1 dourlens
 */
 
 #include		<stdlib.h>
@@ -32,6 +32,10 @@ int			get_type(char *s)
     return (LIST_USERS);
   else if (!(strcmp(s, MSG)))
     return (MSG_T);
+  else if (!(strcmp(s, ACCEPT)))
+    return (ACCEPT_T);
+  else if (!(strcmp(s, SEND)))
+    return (SEND_T);
   else
     return (-2);
 }
