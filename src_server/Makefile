@@ -31,6 +31,7 @@ SOURCES =		main.c				\
 			command_list_chan.c		\
 			command_list_users.c		\
 			command_send_message.c		\
+			command_send_file.c		\
 
 OBJECTS =  $(SOURCES:.c=.o)
 
