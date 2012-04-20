@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Sun Apr  8 16:12:39 2012 maxime demouchy
-** Last update Fri Apr 20 09:57:47 2012 jules1 dourlens
+** Last update Fri Apr 20 15:03:07 2012 jules1 dourlens
 */
 
 #ifndef			__CLIENT__
@@ -38,13 +38,6 @@
 #define ACCEPT_T	69
 #define SEND_T		84
 
-typedef struct		s_event
-{
-  int			type;
-  int			id;
-  struct s_event	*next;
-}			t_event;
-
 typedef struct		s_context
 {
   char			accept[LEN_NAME];
@@ -52,7 +45,6 @@ typedef struct		s_context
   struct sockaddr_in	server;
   int			run;
   fd_set		read;
-  t_event		*events;
 }			t_context;
 
 #endif

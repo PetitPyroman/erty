@@ -5,7 +5,7 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Wed Apr 18 18:41:24 2012 jules1 dourlens
-** Last update Fri Apr 20 09:58:24 2012 jules1 dourlens
+** Last update Fri Apr 20 15:04:13 2012 jules1 dourlens
 */
 
 #include		<stdlib.h>
@@ -49,38 +49,4 @@ int			get_id()
 
   s_id++;
   return (s_id);
-}
-
-/*
-** Get an event!
-*/
-t_event			*get_event(t_context *c, int c_id, int c_type)
-{
-  t_event		*res;
-
-  (void) c;
-  res = malloc(sizeof((*res)));
-  if (!res)
-    exit(1);
-  res->id = c_id;
-  res->type = c_type;
-  res->next = NULL;
-  return (res);
-}
-
-/*
-** Return NULL if not found
-*/
-t_event			*get_event_by_id(t_context *c, int id)
-{
-  t_event		*tmp;
-
-  tmp = c->events;
-  while (tmp)
-    {
-      if (tmp->id = id)
-	return (tmp);
-      tmp = tmp->next;
-    }
-  return (NULL);
 }

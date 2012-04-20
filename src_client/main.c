@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Fri Apr 20 14:21:09 2012 jules1 dourlens
+** Last update Fri Apr 20 15:11:02 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -29,7 +29,6 @@ static void	init_client(char **argv, t_context *c)
   xinet_aton(argv[1], &(c->server.sin_addr));
   c->server.sin_port = htons(atoi(argv[2]));
   xconnect(c->socket, (struct sockadd *) &(c->server), sizeof(c->server));
-  c->events = NULL;
 }
 
 /*
@@ -85,13 +84,12 @@ static void	dispatch_input(t_context *c, char *input)
       tmp = strtok(NULL, DELIM);
       if (i == 1)
 	tmp = data;
-      printf("MSG : %s\n", tmp); 
       if (NULL != tmp)
 	strncpy(packet.data, tmp, LEN_DATA - 1); 
     }
+  packet.time = time(NULL);
   packet.id = get_id();
-  event_push(c, packet.id, packet.type);
-  printf("Writen %i\n", write(c->socket, &packet, sizeof(packet)));
+  write(c->socket, &packet, sizeof(packet));
 }
 
 /*
@@ -100,7 +98,7 @@ static void	dispatch_input(t_context *c, char *input)
 */
 static void	do_input(t_context *c)
 {
-  char		input[255];
+  char		input[LEN_DATA * 10];
   t_packet	p;
 
   while (c->run)
@@ -111,13 +109,16 @@ static void	do_input(t_context *c)
       select(c->socket + 1, &(c->read), NULL, NULL, NULL);
       if (FD_ISSET(c->socket, &(c->read)))
 	{
-	  if (sizeof(p) == read(c->socket, &p, sizeof(p)))
-	    event_gere(c, &p);
+	  if (sizeof(p) == xread(c->socket, &p, sizeof(p)))
+	    if (strlen(p.data))
+	      printf("%s: %s\n", ctime(&(p.time)), p.data);
 	}
       else if (FD_ISSET(0, &(c->read)))
 	{
 	  if (fgets(input, sizeof(input), stdin))
-	    dispatch_input(c, input);
+	    {
+	      dispatch_input(c, input);
+	    }
 	  else
 	    c->run = 0;
 	}
