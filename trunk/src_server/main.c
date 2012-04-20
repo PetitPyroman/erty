@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Thu Apr 19 17:40:57 2012 maxime demouchy
+** Last update Fri Apr 20 13:33:08 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -88,6 +88,11 @@ void	check_data_receive(t_receive *r, t_context *c)
       else if (r->packet.type == SEND_MESSAGE)
 	{
 	  check_data_send_message(r, c, &p);
+	  send_response(r->user_from->socket, &p);
+	}
+      else if (r->packet.type == SEND_FILE)
+	{
+	  check_data_send_file(r, c, &p);
 	  send_response(r->user_from->socket, &p);
 	}
       else
