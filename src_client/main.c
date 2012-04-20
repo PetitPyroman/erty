@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Thu Apr 19 18:18:26 2012 jules1 dourlens
+** Last update Fri Apr 20 10:53:51 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -45,6 +45,24 @@ static void	dispatch_input(t_context *c, char *input)
   packet.type = get_type(strtok(input, DELIM));
   if (-1 == packet.type)
     return;
+  else if (ACCEPT_T == packet.type)
+    {
+      tmp = strtok(NULL, DELIM);
+      bzero(c->accept, LEN_NAME);
+      strncpy(c->accept, tmp, LEN_NAME -1);
+      return;
+    }
+  else if (SEND_T == packet.type)
+    {
+      if (strlen(c->accept))
+	{
+	  tmp = strtok(NULL, DELIM);
+	  strncpy(packet.to, tmp, LEN_NAME -1);
+	  tmp = strtok(NULL, DELIM);
+	  if (!send_a_file(&packet, tmp))
+	    return;
+	}
+    }
   else if (-2 == packet.type)
     {
       packet.type = SEND_MESSAGE;
@@ -55,7 +73,7 @@ static void	dispatch_input(t_context *c, char *input)
       if (MSG_T == packet.type)
 	{
 	  tmp = strtok(NULL, DELIM);
-	  strcpy(packet.to, tmp);
+	  strncpy(packet.to, tmp, LEN_NAME -1);
 	  packet.type = SEND_MESSAGE;
 	}
       tmp = strtok(NULL, DELIM);
