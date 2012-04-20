@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Fri Apr 20 13:43:52 2012 jules1 dourlens
+** Last update Fri Apr 20 14:21:09 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -39,8 +39,12 @@ static void	dispatch_input(t_context *c, char *input)
 {
   t_packet	packet;
   char		*tmp;
+  char		*data;
+  int		i;
 
+  i = 0;
   input[strlen(input) -1] = NULL;
+  data = strdup(input);
   bzero(&packet, sizeof(packet));
   packet.type = get_type(strtok(input, DELIM));
   if (-1 == packet.type)
@@ -66,6 +70,7 @@ static void	dispatch_input(t_context *c, char *input)
     }
   else if (-2 == packet.type)
     {
+      i = 1;
       packet.type = SEND_MESSAGE;
       strncpy(packet.data, input, LEN_DATA - 1);
     }
@@ -78,6 +83,9 @@ static void	dispatch_input(t_context *c, char *input)
 	  packet.type = SEND_MESSAGE;
 	}
       tmp = strtok(NULL, DELIM);
+      if (i == 1)
+	tmp = data;
+      printf("MSG : %s\n", tmp); 
       if (NULL != tmp)
 	strncpy(packet.data, tmp, LEN_DATA - 1); 
     }
