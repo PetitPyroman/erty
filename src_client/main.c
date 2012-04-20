@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Fri Apr 20 15:11:02 2012 jules1 dourlens
+** Last update Fri Apr 20 17:42:15 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -110,8 +110,15 @@ static void	do_input(t_context *c)
       if (FD_ISSET(c->socket, &(c->read)))
 	{
 	  if (sizeof(p) == xread(c->socket, &p, sizeof(p)))
-	    if (strlen(p.data))
-	      printf("%s: %s\n", ctime(&(p.time)), p.data);
+	    {
+	      if (strlen(p.data))
+		{
+		  if (p.type == SEND_FILE && strlen(c->accept))
+		    write_a_file(&p, c, c->accept);
+		  else
+		    printf("%s %s: %s\n", p.to, ctime(&(p.time)), p.data);
+		}
+	    }
 	}
       else if (FD_ISSET(0, &(c->read)))
 	{
