@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Fri Apr 20 13:33:08 2012 maxime demouchy
+** Last update Fri Apr 20 13:57:02 2012 maxime demouchy
 */
 
 #include	<sys/time.h>
@@ -48,7 +48,10 @@ t_receive	*check_data_all_client(t_context *c)
 
 void	send_response(int fd, t_packet *p)
 {
-  write(fd, p, sizeof(t_packet));
+  if (write(fd, p, sizeof(t_packet)) == -1)
+    {
+
+    }
 }
 
 void	check_data_receive(t_receive *r, t_context *c)

@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr 19 17:39:11 2012 maxime demouchy
-** Last update Fri Apr 20 13:35:35 2012 maxime demouchy
+** Last update Fri Apr 20 14:12:25 2012 maxime demouchy
 */
 
 #include	<string.h>
@@ -37,7 +37,7 @@ void		send_to_all(t_user *u, char *chan_name, char *data)
 {
   while (u)
     {
-      if (!(strcmp(u->channel->name, chan_name)))
+      if (u->channel && !(strcmp(u->channel->name, chan_name)))
 	send_message(u->socket, data);
       u = u->next;
     }
@@ -66,7 +66,12 @@ void		check_data_send_message(t_receive *r, t_context *c, t_packet *p)
     }
   else
     {
-      p->type = ANSWER_OK;
-      send_to_all(c->users, r->user_from->channel->name, r->packet.data);
+      if (r->user_from->channel == NULL)
+	strcpy(p->data, "Can't send message... COnnard rejoint un channel...\n");
+      else
+	{
+	  p->type = ANSWER_OK;
+	  send_to_all(c->users, r->user_from->channel->name, r->packet.data);
+	}
     }
 }
