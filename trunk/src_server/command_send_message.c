@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr 19 17:39:11 2012 maxime demouchy
-** Last update Fri Apr 20 14:12:25 2012 maxime demouchy
+** Last update Fri Apr 20 15:38:59 2012 maxime demouchy
 */
 
 #include	<string.h>
@@ -23,22 +23,25 @@ int	send_single_people_message(t_user *u, char *name)
   return (-1);
 }
 
-void		send_message(int fd_dest, char *data)
+void		send_message(int fd_dest, char *data, char *msg_from)
 {
   t_packet	p;
 
+  bzero(&p, sizeof(t_packet));
+  p.time = time(NULL);
   p.type = SEND_MESSAGE;
   p.id = -1;
+  strcpy(p.to, msg_from);
   memcpy(p.data, data, LEN_DATA);
   send_response(fd_dest, &p);
 }
 
-void		send_to_all(t_user *u, char *chan_name, char *data)
+void		send_to_all(t_user *u, char *chan_name, char *data, char *msg_from)
 {
   while (u)
     {
       if (u->channel && !(strcmp(u->channel->name, chan_name)))
-	send_message(u->socket, data);
+	send_message(u->socket, data, msg_from);
       u = u->next;
     }
 }
@@ -60,18 +63,18 @@ void		check_data_send_message(t_receive *r, t_context *c, t_packet *p)
       else
 	{
 	  p->type = ANSWER_OK;
-	  send_message(fd_single, r->packet.data);
-	  send_message(r->user_from->socket, r->packet.data);
+	  send_message(fd_single, r->packet.data, r->user_from->name);
+	  send_message(r->user_from->socket, r->packet.data, r->user_from->name);
 	}
     }
   else
     {
       if (r->user_from->channel == NULL)
-	strcpy(p->data, "Can't send message... COnnard rejoint un channel...\n");
+	strcpy(p->data, "Can't send message... Joint a hannel before...");
       else
 	{
 	  p->type = ANSWER_OK;
-	  send_to_all(c->users, r->user_from->channel->name, r->packet.data);
+	  send_to_all(c->users, r->user_from->channel->name, r->packet.data, r->user_from->name);
 	}
     }
 }
