@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Fri Apr 20 11:34:48 2012 jules1 dourlens
+** Last update Fri Apr 20 13:43:52 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -59,6 +59,7 @@ static void	dispatch_input(t_context *c, char *input)
 	  tmp = strtok(NULL, DELIM);
 	  strncpy(packet.to, tmp, LEN_NAME -1);
 	  tmp = strtok(NULL, DELIM);
+	  packet.type = SEND_FILE;
 	  if (!send_a_file(&packet, c, tmp))
 	    return;
 	}
