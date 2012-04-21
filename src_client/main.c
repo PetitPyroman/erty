@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Sat Apr 21 14:28:35 2012 jules1 dourlens
+** Last update Sat Apr 21 15:32:14 2012 maxime demouchy
 */
 
 #include	<stdio.h>
@@ -22,14 +22,13 @@
 
 static int	dispatch_input_(t_context *c, char *input, t_packet *packet)
 {
-  char		*tmp;
   char		*t;
 
   (void) c;
   input[strlen(input) - 1] = '\0';
   bzero(packet, sizeof((*packet)));
   t = strdup(input);
-  tmp = strtok(t, DELIM);
+  strtok(t, DELIM);
   packet->type = get_type(strtok(t, DELIM));
   free(t);
   if ((int) packet->type != -2)
