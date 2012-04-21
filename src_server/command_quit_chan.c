@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr 19 17:18:30 2012 maxime demouchy
-** Last update Thu Apr 19 17:30:10 2012 maxime demouchy
+** Last update Sat Apr 21 11:08:22 2012 maxime demouchy
 */
 
 #include	<string.h>
@@ -18,7 +18,7 @@ void		check_data_quit_chan(t_receive *r, t_context *c, t_packet *p)
   p->time = time(NULL);
   p->type = ANSWER_NO;
   if (r->user_from->channel == NULL)
-    strcpy(p->data, "You cannot QUIT channel because your are not in a channel !\n");
+    strcpy(p->data, "You cant QUIT channel ! your are not in a channel !\n");
   else
     {
       p->type = ANSWER_OK;

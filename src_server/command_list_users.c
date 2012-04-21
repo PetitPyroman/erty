@@ -5,14 +5,15 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr 19 17:34:28 2012 maxime demouchy
-** Last update Fri Apr 20 14:17:06 2012 maxime demouchy
+** Last update Sat Apr 21 11:07:51 2012 maxime demouchy
 */
 
 #include	<string.h>
 #include	"header.h"
 #include	"server.h"
 
-static void		create_string_list_users(t_user *u, char *buff, char *chan_name)
+static void		create_string_list_users(t_user *u, char *buff,
+						 char *chan_name)
 {
   bzero(buff, LEN_DATA);
   strcpy(buff, "Channel :\n");
