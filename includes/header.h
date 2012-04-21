@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:16:50 2012 maxime demouchy
-** Last update Fri Apr 20 11:22:42 2012 jules1 dourlens
+** Last update Sat Apr 21 14:25:35 2012 jules1 dourlens
 */
 
 #ifndef		__HEADER__
@@ -34,7 +34,7 @@ typedef enum
 
 typedef struct	s_packet
 {
-  t_type	type;
+  int		type;
   unsigned int	id;
   time_t	time;
   char		data[LEN_DATA];

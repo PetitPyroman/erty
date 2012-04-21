@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Sun Apr  8 16:12:39 2012 maxime demouchy
-** Last update Fri Apr 20 15:03:07 2012 jules1 dourlens
+** Last update Sat Apr 21 14:21:27 2012 jules1 dourlens
 */
 
 #ifndef			__CLIENT__
@@ -14,7 +14,11 @@
 #include		<arpa/inet.h>
 #include		<unistd.h>
 #include		<sys/select.h>
-#include		<ncurses.h>
+#include		<stdlib.h>
+#include		<sys/types.h>
+#include		<sys/socket.h>
+#include		<netinet/in.h>
+#include		<stdio.h>
 #include		"header.h"
 
 /*
@@ -46,5 +50,20 @@ typedef struct		s_context
   int			run;
   fd_set		read;
 }			t_context;
+
+void			id_ok_type(t_context *c, t_packet *packet,
+				   char *tmp, char *input);
+int			send_a_file(t_packet *p, t_context *c, char *file);
+int			write_a_file(t_packet *p, t_context *c, char *file);
+void			init_client(char **argv, t_context *c);
+void			get_action_socket(t_context *c, t_packet *p);
+int			get_type(char *s);
+int			get_id(void);
+int			main(int argc, char **argv);
+void			xconnect(int sockfd, struct sockaddr *addr,
+				 socklen_t a);
+void			xinet_aton(const char *cp, struct in_addr *inp);
+int			xsocket(int domain, int type, int protocol);
+ssize_t			xread(int fd, void *b, size_t count);
 
 #endif

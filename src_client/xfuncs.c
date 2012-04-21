@@ -5,7 +5,7 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Fri Apr  6 11:20:51 2012 jules1 dourlens
-** Last update Fri Apr 20 14:56:23 2012 jules1 dourlens
+** Last update Sat Apr 21 14:21:40 2012 jules1 dourlens
 */
 
 #include	<unistd.h>
@@ -14,9 +14,11 @@
 #include	<stdlib.h>
 #include	<sys/types.h>
 #include	<sys/socket.h>
+#include	<arpa/inet.h>
 #include	"header.h"
+#include	"client.h"
 
-void		xconnect(int sockfd, const struct sockaddr *addr,
+void		xconnect(int sockfd, struct sockaddr *addr,
 			 socklen_t addrlen)
 {
   int		ret;
