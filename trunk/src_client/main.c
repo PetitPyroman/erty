@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Mon Apr  2 14:13:47 2012 maxime demouchy
-** Last update Fri Apr 20 17:42:15 2012 jules1 dourlens
+** Last update Sat Apr 21 14:28:35 2012 jules1 dourlens
 */
 
 #include	<stdio.h>
@@ -20,73 +20,50 @@
 #include	"client.h"
 #include	"common.h"
 
-static void	init_client(char **argv, t_context *c)
+static int	dispatch_input_(t_context *c, char *input, t_packet *packet)
 {
-  c->run = 1;
-  c->socket = xsocket(AF_INET, SOCK_STREAM, 0);
-  memset(&(c->server), 0, sizeof(c->server));
-  c->server.sin_family = AF_INET;
-  xinet_aton(argv[1], &(c->server.sin_addr));
-  c->server.sin_port = htons(atoi(argv[2]));
-  xconnect(c->socket, (struct sockadd *) &(c->server), sizeof(c->server));
+  char		*tmp;
+  char		*t;
+
+  (void) c;
+  input[strlen(input) - 1] = '\0';
+  bzero(packet, sizeof((*packet)));
+  t = strdup(input);
+  tmp = strtok(t, DELIM);
+  packet->type = get_type(strtok(t, DELIM));
+  free(t);
+  if ((int) packet->type != -2)
+    strtok(input, DELIM);
+  return (1);
 }
 
 /*
 ** How to deal with the cmd to parse! 
 */
-static void	dispatch_input(t_context *c, char *input)
+static void	dispatch_input(t_context *c, char *input, char *tmp, char *data)
 {
   t_packet	packet;
-  char		*tmp;
-  char		*data;
-  int		i;
 
-  i = 0;
-  input[strlen(input) -1] = NULL;
-  data = strdup(input);
-  bzero(&packet, sizeof(packet));
-  packet.type = get_type(strtok(input, DELIM));
-  if (-1 == packet.type)
+  if (dispatch_input_(c, input, &packet) && -1 == packet.type)
     return;
-  else if (ACCEPT_T == packet.type)
+  else if (ACCEPT_T == packet.type && (1 || data))
     {
       tmp = strtok(NULL, DELIM);
       bzero(c->accept, LEN_NAME);
       strncpy(c->accept, tmp, LEN_NAME -1);
       return;
     }
-  else if (SEND_T == packet.type)
+  else if (SEND_T == packet.type && strlen(c->accept))
     {
-      if (strlen(c->accept))
-	{
-	  tmp = strtok(NULL, DELIM);
-	  strncpy(packet.to, tmp, LEN_NAME -1);
-	  tmp = strtok(NULL, DELIM);
-	  packet.type = SEND_FILE;
-	  if (!send_a_file(&packet, c, tmp))
-	    return;
-	}
-    }
-  else if (-2 == packet.type)
-    {
-      i = 1;
-      packet.type = SEND_MESSAGE;
-      strncpy(packet.data, input, LEN_DATA - 1);
-    }
-  else if (MSG_T == packet.type || JOIN_CHAN == packet.type || SEND_MESSAGE == packet.type || LIST_CHAN == packet.type ||  LIST_USERS == packet.type ||  QUIT_CHAN == packet.type || REGISTER == packet.type)
-    {
-      if (MSG_T == packet.type)
-	{
-	  tmp = strtok(NULL, DELIM);
-	  strncpy(packet.to, tmp, LEN_NAME -1);
-	  packet.type = SEND_MESSAGE;
-	}
       tmp = strtok(NULL, DELIM);
-      if (i == 1)
-	tmp = data;
-      if (NULL != tmp)
-	strncpy(packet.data, tmp, LEN_DATA - 1); 
+      strncpy(packet.to, tmp, LEN_NAME -1);
+      tmp = strtok(NULL, DELIM);
+      packet.type = SEND_FILE;
+      if (!send_a_file(&packet, c, tmp))
+	return;
     }
+  else
+    id_ok_type(c, &packet, tmp, input);
   packet.time = time(NULL);
   packet.id = get_id();
   write(c->socket, &packet, sizeof(packet));
@@ -108,23 +85,12 @@ static void	do_input(t_context *c)
       FD_SET(0, &(c->read));
       select(c->socket + 1, &(c->read), NULL, NULL, NULL);
       if (FD_ISSET(c->socket, &(c->read)))
-	{
-	  if (sizeof(p) == xread(c->socket, &p, sizeof(p)))
-	    {
-	      if (strlen(p.data))
-		{
-		  if (p.type == SEND_FILE && strlen(c->accept))
-		    write_a_file(&p, c, c->accept);
-		  else
-		    printf("%s %s: %s\n", p.to, ctime(&(p.time)), p.data);
-		}
-	    }
-	}
+	get_action_socket(c, &p);
       else if (FD_ISSET(0, &(c->read)))
 	{
 	  if (fgets(input, sizeof(input), stdin))
 	    {
-	      dispatch_input(c, input);
+	      dispatch_input(c, input, NULL, NULL);
 	    }
 	  else
 	    c->run = 0;
@@ -140,6 +106,7 @@ int		main(int argc, char **argv)
     {
       init_client(argv, &c);
       do_input(&c);
+      close(c.socket);
     }
   else
     {

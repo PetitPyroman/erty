@@ -5,7 +5,7 @@
 ** Login   <dourle_a@epitech.net>
 ** 
 ** Started on  Fri Apr 20 10:52:21 2012 jules1 dourlens
-** Last update Fri Apr 20 17:31:26 2012 jules1 dourlens
+** Last update Sat Apr 21 14:20:44 2012 jules1 dourlens
 */
 
 #include	<string.h>
@@ -14,6 +14,30 @@
 #include	<errno.h>
 #include	"header.h"
 #include	"client.h"
+
+void		id_ok_type(t_context *c, t_packet *packet, char *tmp, char *input)
+{
+  if (c && -2 == (int) packet->type)
+    {
+      packet->type = SEND_MESSAGE;
+      strncpy(packet->data, input, LEN_DATA - 1);
+    }
+  else if (MSG_T == packet->type || JOIN_CHAN == packet->type
+	   || SEND_MESSAGE == packet->type || LIST_CHAN == packet->type
+	   ||  LIST_USERS == packet->type ||  QUIT_CHAN == packet->type
+           || REGISTER == packet->type)
+    {
+      if (MSG_T == packet->type)
+        {
+          tmp = strtok(NULL, DELIM);
+          strncpy(packet->to, tmp, LEN_NAME -1);
+          packet->type = SEND_MESSAGE;
+        }
+      tmp = strtok(NULL, "\n");
+      if (NULL != tmp)
+        strncpy(packet->data, tmp, LEN_DATA - 1);
+    }
+}
 
 int		send_a_file(t_packet *p, t_context *c, char *file)
 {
