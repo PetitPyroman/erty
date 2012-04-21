@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Thu Apr  5 15:58:35 2012 maxime demouchy
-** Last update Fri Apr 20 13:41:53 2012 maxime demouchy
+** Last update Sat Apr 21 11:03:37 2012 maxime demouchy
 */
 
 #ifndef		__SERVER__
@@ -53,6 +53,8 @@ typedef struct	s_context
 */
 
 void	send_response(int fd, t_packet *p);
+void	check_client_disconnect(t_context *c);
+t_receive	*check_data_all_client(t_context *c);
 
 /*
 ** command_send_file.c

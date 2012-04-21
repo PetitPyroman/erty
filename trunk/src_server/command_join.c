@@ -5,7 +5,7 @@
 ** Login   <demouc_m@epitech.net>
 ** 
 ** Started on  Wed Apr 18 23:18:31 2012 maxime demouchy
-** Last update Thu Apr 19 17:16:51 2012 maxime demouchy
+** Last update Sat Apr 21 11:07:28 2012 maxime demouchy
 */
 
 #include	<string.h>
@@ -48,7 +48,7 @@ void		check_data_join_chan(t_receive *r, t_context *c, t_packet *p)
       else
 	{
 	  strcpy(p->data, "Join channel !\n");
-	  r->user_from->channel = chan; 
+	  r->user_from->channel = chan;
 	}
     }
 }
